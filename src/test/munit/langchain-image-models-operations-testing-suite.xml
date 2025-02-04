@@ -46,7 +46,7 @@ assert_expression_payload::main({payload: payload, attributes: attributes, vars:
 
     <munit:test name="image-generate-test" doc:id="b6b84e68-13f2-40d7-9486-1298c9698d97" >
         <munit:execution >
-            <ms-aichain:image-generate doc:name="Image generate" doc:id="e698de71-aaf5-4da3-a202-7d4d5dec5814" config-ref="OPENAIGPT4">
+            <ms-aichain:image-generate doc:name="Image generate" doc:id="e698de71-aaf5-4da3-a202-7d4d5dec5814" config-ref="OPENAIGPT4-IMAGE">
                 <ms-aichain:data>
                     Generate a picture of a pinguin dancing on the beach, cartoon style.
                 </ms-aichain:data>
@@ -62,9 +62,9 @@ payload.response must notBeNull()]]]></munit-tools:that>
         </munit:validation>
     </munit:test>
 
-    <munit:test name="image-generate-failure-test" expectedErrorType="MS-AICHAIN:IMAGE_GENERATION_FAILURE">
+    <munit:test name="image-generate-failure-test" expectedErrorType="MS-AICHAIN:CONNECTIVITY">
         <munit:execution >
-            <ms-aichain:image-generate doc:name="Image generate" doc:id="e698de71-aaf5-4da3-a202-7d4d5dec5814" config-ref="OPENAI-INCORRECT-KEY">
+            <ms-aichain:image-generate doc:name="Image generate" doc:id="e698de71-aaf5-4da3-a202-7d4d5dec5814" config-ref="OPENAI-INCORRECT-IMAGE-KEY">
                 <ms-aichain:data>
                     Generate a picture of a pinguin dancing on the beach, cartoon style.
                 </ms-aichain:data>
@@ -100,7 +100,7 @@ payload.pages[0].response must contain("Pete")]]]></munit-tools:that>
         </munit:execution>
     </munit:test>
 
-    <munit:test name="read-scanned-doc-config-failure-test" description="Failure with incorrect configuration" expectedErrorType="MS-AICHAIN:IMAGE_ANALYSIS_FAILURE">
+    <munit:test name="read-scanned-doc-config-failure-test" description="Failure with incorrect configuration" expectedErrorType="MS-AICHAIN:CONNECTIVITY">
         <munit:execution >
             <ms-aichain:image-read-scanned-documents doc:name="Image read scanned documents" doc:id="45154a42-ce31-4b34-aadc-dc3ad10fcdc0" config-ref="OPENAI-INCORRECT-MODEL-NAME" filePath="${app.home}/scansmpl.pdf">
                 <ms-aichain:data>

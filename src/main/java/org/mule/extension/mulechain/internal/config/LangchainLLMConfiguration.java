@@ -5,7 +5,7 @@ package org.mule.extension.mulechain.internal.config;
 
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import org.mule.extension.mulechain.internal.operation.LangchainEmbeddingStoresOperations;
-import org.mule.extension.mulechain.internal.operation.LangchainImageModelsOperations;
+import org.mule.extension.mulechain.internal.operation.LangchainImageChatModelsOperations;
 import org.mule.extension.mulechain.internal.llm.type.LangchainLLMType;
 import org.mule.extension.mulechain.internal.llm.ConfigTypeProvider;
 import org.mule.extension.mulechain.internal.operation.LangchainLLMOperations;
@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
  * operations since they represent something core from the extension.
  */
 @Configuration(name = "config")
-@Operations({LangchainLLMOperations.class, LangchainEmbeddingStoresOperations.class, LangchainImageModelsOperations.class})
+@Operations({LangchainLLMOperations.class, LangchainEmbeddingStoresOperations.class, LangchainImageChatModelsOperations.class})
 public class LangchainLLMConfiguration implements Initialisable {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LangchainLLMConfiguration.class);

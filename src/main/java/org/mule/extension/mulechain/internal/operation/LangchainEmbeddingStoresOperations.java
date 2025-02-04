@@ -34,30 +34,27 @@ import org.json.JSONObject;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 import org.mule.extension.mulechain.api.metadata.LLMResponseAttributes;
+import org.mule.extension.mulechain.internal.connection.ChatConnection;
+import org.mule.extension.mulechain.internal.connection.MistralAIChatConnection;
 import org.mule.extension.mulechain.internal.constants.MuleChainConstants;
 import org.mule.extension.mulechain.internal.error.MuleChainErrorType;
 import org.mule.extension.mulechain.internal.error.provider.EmbeddingErrorTypeProvider;
 import org.mule.extension.mulechain.internal.helpers.FileType;
 import org.mule.extension.mulechain.internal.helpers.FileTypeParameters;
-import org.mule.extension.mulechain.internal.operation.LangchainEmbeddingStoresOperations.AssistantSources;
-import org.mule.extension.mulechain.internal.config.LangchainLLMConfiguration;
 import org.mule.extension.mulechain.internal.tools.GenericRestApiTool;
 import org.mule.extension.mulechain.internal.util.ExcludeFromGeneratedCoverage;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.error.Throws;
 import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
+import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.MediaType;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
-import org.mule.runtime.extension.api.annotation.param.Config;
 import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.chat.request.json.JsonObjectSchema;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.service.MemoryId;
 import dev.langchain4j.service.Result;
 import dev.langchain4j.service.UserMessage;
-import dev.langchain4j.service.tool.ToolExecution;
-import dev.langchain4j.service.tool.ToolExecutor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,7 +64,6 @@ import java.util.Map;
 import dev.langchain4j.agent.tool.ToolExecutionRequest;
 import dev.langchain4j.agent.tool.ToolParameters;
 import dev.langchain4j.agent.tool.ToolSpecification;
-import dev.langchain4j.chain.ConversationalRetrievalChain;
 import dev.langchain4j.data.document.loader.UrlDocumentLoader;
 import dev.langchain4j.data.document.parser.TextDocumentParser;
 import dev.langchain4j.data.document.splitter.DocumentSplitters;
@@ -76,7 +72,6 @@ import dev.langchain4j.model.embedding.onnx.allminilml6v2.AllMiniLmL6V2Embedding
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.model.openai.OpenAiTokenizer;
 import dev.langchain4j.model.output.Response;
-import dev.langchain4j.retriever.EmbeddingStoreRetriever;
 import dev.langchain4j.store.embedding.EmbeddingMatch;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.memory.chat.ChatMemoryStore;
@@ -98,8 +93,6 @@ import java.util.regex.Pattern;
 import org.mule.runtime.extension.api.exception.ModuleException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * This class is a container for embedding related operations, every public method in this class will be taken as an extension operation.
@@ -129,7 +122,7 @@ public class LangchainEmbeddingStoresOperations {
    * Enables the user to query the doc provided in natural language.<br>
    * The doc will be embedded into in memory vector store.
    *
-   * @param configuration       Refers to the configuration object
+   * @param connection       Refers to the configuration object
    * @param data                Defines the query input provided by the user
    * @param contextPath         Defines the file path which will be embedded
    * @param fileType            Specifies the type of file. {@link org.mule.extension.mulechain.internal.helpers.FileType} Eg: "any", "text" & "url"
@@ -139,7 +132,7 @@ public class LangchainEmbeddingStoresOperations {
   @Alias("RAG-load-document")
   @Throws(EmbeddingErrorTypeProvider.class)
   @OutputJsonType(schema = "api/response/Response.json")
-  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> loadDocumentFile(@Config LangchainLLMConfiguration configuration,
+  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> loadDocumentFile(@Connection ChatConnection connection,
                                                                                                                       @org.mule.runtime.extension.api.annotation.param.Content String data,
                                                                                                                       String contextPath,
                                                                                                                       @ParameterGroup(
@@ -160,7 +153,7 @@ public class LangchainEmbeddingStoresOperations {
 
       LOGGER.debug("File successfully embedded into the in-memory embedding store");
 
-      ChatLanguageModel model = configuration.getModel();
+      ChatLanguageModel model = connection.getModel();
 
 
       // MIGRATE CHAINS TO AI SERVICES: https://docs.langchain4j.dev/tutorials/ai-services/
@@ -236,7 +229,7 @@ public class LangchainEmbeddingStoresOperations {
 
   /**
    * Implements a chat memory for a defined LLM as an AI Agent. The memoryName allows the multichannel / profile design.
-   * @param configuration           Refers to the configuration object
+   * @param connection           Refers to the configuration object
    * @param data                    Refers to the user prompt
    * @param memoryName              Name of the memory to be fetched for further processing by the LLMs
    * @param dbFilePath              Location of the file containing the memory
@@ -247,7 +240,7 @@ public class LangchainEmbeddingStoresOperations {
   @Alias("CHAT-answer-prompt-with-memory")
   @Throws(EmbeddingErrorTypeProvider.class)
   @OutputJsonType(schema = "api/response/Response.json")
-  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> chatWithPersistentMemory(@Config LangchainLLMConfiguration configuration,
+  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> chatWithPersistentMemory(@Connection ChatConnection connection,
                                                                                                                               @org.mule.runtime.extension.api.annotation.param.Content String data,
                                                                                                                               String memoryName,
                                                                                                                               String dbFilePath,
@@ -257,7 +250,7 @@ public class LangchainEmbeddingStoresOperations {
       LOGGER.debug(
                    "Chat Answer Prompt With Memory Operation called with userPrompt: {}, memoryName: {}, dbFilePath: {} & maxMessages: {}",
                    data, memoryName, dbFilePath, maxMessages);
-      ChatLanguageModel model = configuration.getModel();
+      ChatLanguageModel model = connection.getModel();
       PersistentChatMemoryStore store = new PersistentChatMemoryStore(dbFilePath);
       ChatMemoryProvider chatMemoryProvider = memoryId -> MessageWindowChatMemory.builder()
           .id(memoryName)
@@ -531,7 +524,7 @@ public class LangchainEmbeddingStoresOperations {
 
   /**
    * Reads information via prompt from embedding store (in-Memory), which is imported from the storeName (full path)
-   * @param configuration           Refers to the configuration object
+   * @param connection           Refers to the configuration object
    * @param data                    Refers to the user prompt or query
    * @param storeName               Name of the store to be queried
    * @param getLatest               Determines whether the store needs to be freshly fetched from the location
@@ -541,7 +534,7 @@ public class LangchainEmbeddingStoresOperations {
   @Alias("EMBEDDING-get-info-from-store")
   @Throws(EmbeddingErrorTypeProvider.class)
   @OutputJsonType(schema = "api/response/Response.json")
-  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> promptFromEmbedding(@Config LangchainLLMConfiguration configuration,
+  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> promptFromEmbedding(@Connection ChatConnection connection,
                                                                                                                          @org.mule.runtime.extension.api.annotation.param.Content String data,
                                                                                                                          String storeName,
                                                                                                                          boolean getLatest) {
@@ -551,7 +544,7 @@ public class LangchainEmbeddingStoresOperations {
                    storeName, getLatest, data);
       InMemoryEmbeddingStore<TextSegment> store = getDeserializedStore(storeName, getLatest);
 
-      ChatLanguageModel model = configuration.getModel();
+      ChatLanguageModel model = connection.getModel();
 
       ContentRetriever contentRetriever = new EmbeddingStoreContentRetriever(store, this.embeddingModel);
 
@@ -626,7 +619,7 @@ public class LangchainEmbeddingStoresOperations {
   /**
    * (AI Services) Usage of tools by a defined AI Agent.<br>
    * Provide a list of tools (APIs) with all required information (endpoint, headers, body, method, etc.) to the AI Agent to use it on purpose.
-   * @param configuration           Refers to the configuration object
+   * @param connection           Refers to the configuration object
    * @param data                    Refers to the user prompt or query
    * @param toolConfig              Contains the configuration required by the LLM to enable calling tools
    * @return                        Returns the response while considering tools configuration
@@ -635,7 +628,7 @@ public class LangchainEmbeddingStoresOperations {
   @Alias("TOOLS-use-ai-service")
   @Throws(EmbeddingErrorTypeProvider.class)
   @OutputJsonType(schema = "api/response/Response.json")
-  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> useAIServiceTools(@Config LangchainLLMConfiguration configuration,
+  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> useAIServiceTools(@Connection ChatConnection connection,
                                                                                                                        @org.mule.runtime.extension.api.annotation.param.Content String data,
                                                                                                                        String toolConfig) {
     try {
@@ -652,7 +645,7 @@ public class LangchainEmbeddingStoresOperations {
       Document document = loadDocument(toolConfig, new TextDocumentParser());
       ingestor.ingest(document);
 
-      ChatLanguageModel model = configuration.getModel();
+      ChatLanguageModel model = connection.getModel();
       ContentRetriever contentRetriever = new EmbeddingStoreContentRetriever(embeddingStore, embeddingModel);
 
       AssistantEmbeddingR assistant = AiServices.builder(AssistantEmbeddingR.class)
@@ -711,16 +704,16 @@ public class LangchainEmbeddingStoresOperations {
   /**
    * (AI Services) Usage of tools by a defined AI Agent.<br>
    * Provide a list of tools (APIs) with all required information (endpoint, headers, body, method, etc.) to the AI Agent to use it on purpose.
-   * @param configuration           Refers to the configuration object
+   * @param connection           Refers to the configuration object
    * @param data                    Refers to the user prompt or query
-   * @param toolConfig              Contains the configuration required by the LLM to enable calling tools
+   * @param toolsArray              Contains the configuration required by the LLM to enable calling tools
    * @return                        Returns the response while considering tools configuration
    */
   @MediaType(value = APPLICATION_JSON, strict = false)
   @Alias("TOOLS-use-ai-native")
   @Throws(EmbeddingErrorTypeProvider.class)
   @OutputJsonType(schema = "api/response/ResponseTools.json")
-  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> useNativeAIServiceTools(@Config LangchainLLMConfiguration configuration,
+  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> useNativeAIServiceTools(@Connection ChatConnection connection,
                                                                                                                              @org.mule.runtime.extension.api.annotation.param.Content String data,
                                                                                                                              InputStream toolsArray) {
     try {
@@ -729,9 +722,9 @@ public class LangchainEmbeddingStoresOperations {
 
       JSONArray tools = getInputString(toolsArray);
 
-      List<ToolSpecification> toolsSpecs = getTools(tools, configuration);
+      List<ToolSpecification> toolsSpecs = getTools(tools, connection);
 
-      ChatLanguageModel model = configuration.getModel();
+      ChatLanguageModel model = connection.getModel();
 
       dev.langchain4j.data.message.UserMessage userMessage = dev.langchain4j.data.message.UserMessage.from(data);
 
@@ -890,7 +883,7 @@ public class LangchainEmbeddingStoresOperations {
 
   }
 
-  private static List<ToolSpecification> getToolsMistral(JSONArray tools, LangchainLLMConfiguration configuration) {
+  private static List<ToolSpecification> getToolsMistral(JSONArray tools) {
     List<ToolSpecification> toolSpecifications = new ArrayList<>();
 
     for (int i = 0; i < tools.length(); i++) {
@@ -950,14 +943,15 @@ public class LangchainEmbeddingStoresOperations {
     return toolSpecifications;
   }
 
-  private static List<ToolSpecification> getTools(JSONArray tools, LangchainLLMConfiguration configuration) {
+  private static List<ToolSpecification> getTools(JSONArray tools,
+                                                  ChatConnection connection) {
 
     List<ToolSpecification> toolSpecifications;
-    if ("MISTRAL_AI".equals(configuration.getLlmType())) {
-      toolSpecifications = getToolsMistral(tools, configuration);
+    if (connection instanceof MistralAIChatConnection) {
+      toolSpecifications = getToolsMistral(tools);
 
     } else {
-      toolSpecifications = getToolsGeneral(tools, configuration);
+      toolSpecifications = getToolsGeneral(tools);
 
     }
 
@@ -966,7 +960,7 @@ public class LangchainEmbeddingStoresOperations {
   }
 
 
-  private static List<ToolSpecification> getToolsGeneral(JSONArray tools, LangchainLLMConfiguration configuration) {
+  private static List<ToolSpecification> getToolsGeneral(JSONArray tools) {
     List<ToolSpecification> toolSpecifications = new ArrayList<>();
 
     // Iterate over each element in the tools JSONArray

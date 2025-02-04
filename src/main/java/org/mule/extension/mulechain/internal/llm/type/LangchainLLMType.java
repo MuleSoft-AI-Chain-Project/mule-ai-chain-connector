@@ -87,7 +87,7 @@ public enum LangchainLLMType {
         .orElseThrow(() -> new ConfigValidationException("Unsupported LLM Type: " + value));
   }
 
-  enum OllamaModelName {
+  public enum OllamaModelName {
     MISTRAL("mistral"), PHI3("phi3"), ORCA_MINI("orca-mini"), LLAMA2("llama2"), CODE_LLAMA("codellama"), TINY_LLAMA("tinyllama");
 
     private final String value;
@@ -102,7 +102,7 @@ public enum LangchainLLMType {
     }
   }
 
-  enum HuggingFaceModelName {
+  public enum HuggingFaceModelName {
     TII_UAE_FALCON_7B_INSTRUCT("tiiuae/falcon-7b-instruct"), PHI3("microsoft/Phi-3.5-mini-instruct"), MISTRAL_7B_INSTRUCT_V03(
         "mistralai/Mistral-7B-Instruct-v0.3"), TINY_LLAMA("TinyLlama/TinyLlama-1.1B-Chat-v1.0");
 
@@ -118,7 +118,7 @@ public enum LangchainLLMType {
     }
   }
 
-  enum GeminiModelName {
+  public enum GeminiModelName {
     GEMINI_1_5_FLASH("gemini-1.5-flash"), GEMINI_1_5_PRO("gemini-1.5-pro"), GEMINI_1_PRO(
         "gemini-1.0-pro");
 

@@ -12,33 +12,27 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.text.StringCharacterIterator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import org.json.JSONObject;
 import org.mule.extension.mulechain.api.metadata.LLMResponseAttributes;
-import org.mule.extension.mulechain.internal.config.LangchainLLMConfiguration;
+import org.mule.extension.mulechain.internal.connection.ChatConnection;
 import org.mule.extension.mulechain.internal.constants.MuleChainConstants;
 import org.mule.extension.mulechain.internal.error.MuleChainErrorType;
 import org.mule.extension.mulechain.internal.error.provider.AiServiceErrorTypeProvider;
-import org.mule.extension.mulechain.internal.llm.config.ConfigExtractor;
-import org.mule.extension.mulechain.internal.llm.type.ModerationModelType;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.error.Throws;
 import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
-import org.mule.runtime.extension.api.annotation.param.Config;
+import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.MediaType;
-import org.mule.runtime.extension.api.annotation.param.Optional;
 
 import dev.langchain4j.model.input.Prompt;
 import dev.langchain4j.model.input.PromptTemplate;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.Result;
 import dev.langchain4j.service.UserMessage;
-import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.exception.ModuleException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +52,7 @@ public class LangchainLLMOperations {
   /**
    * Implements a simple Chat agent to enable chat with the LLM
    * 
-   * @param configuration Refers to the configuration object
+   * @param connection Refers to the configuration object
    * @param prompt User defined prompt query
    * @return Returns the corresponding response as returned by the LLM
    */
@@ -66,12 +60,12 @@ public class LangchainLLMOperations {
   @Alias("CHAT-answer-prompt")
   @Throws(AiServiceErrorTypeProvider.class)
   @OutputJsonType(schema = "api/response/Response.json")
-  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> answerPromptByModelName(@Config LangchainLLMConfiguration configuration,
+  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> answerPromptByModelName(@Connection ChatConnection connection,
                                                                                                                              @Content String prompt) {
     // OpenAI parameters are explained here: https://platform.openai.com/docs/api-reference/chat/create
     try {
       LOGGER.debug("Chat Answer Prompt Operation called with prompt: {}", prompt);
-      ChatLanguageModel model = configuration.getModel();
+      ChatLanguageModel model = connection.getModel();
       Assistant assistant = AiServices.create(Assistant.class, model);
       Result<String> answer = assistant.chat(prompt);
       JSONObject jsonObject = new JSONObject();
@@ -86,7 +80,7 @@ public class LangchainLLMOperations {
   /**
    * Helps in defining an AI Agent configured with a prompt template
    *
-   * @param configuration Refers to the configuration object
+   * @param connection Refers to the configuration object
    * @param dataset Refers to the user query to be acted upon
    * @param template Refers to sample template used by LLM to respond adequately to the user queries
    * @param instructions This provides the LLM on how to understand and respond to the user queries
@@ -96,7 +90,7 @@ public class LangchainLLMOperations {
   @Alias("AGENT-define-prompt-template")
   @Throws(AiServiceErrorTypeProvider.class)
   @OutputJsonType(schema = "api/response/Response.json")
-  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> definePromptTemplate(@Config LangchainLLMConfiguration configuration,
+  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> definePromptTemplate(@Connection ChatConnection connection,
                                                                                                                           @Content(
                                                                                                                               primary = true) String dataset,
                                                                                                                           @Content String template,
@@ -105,7 +99,7 @@ public class LangchainLLMOperations {
     try {
       LOGGER.debug("Agent Define Prompt Template Operation called with prompt: {}, template: {} & instruction: {}", dataset,
                    template, instructions);
-      ChatLanguageModel model = configuration.getModel();
+      ChatLanguageModel model = connection.getModel();
 
       PromptTemplate promptTemplate = PromptTemplate.from(template + System.lineSeparator() + "Instructions: {{instructions}}"
           + System.lineSeparator() + "Dataset: {{dataset}}");
@@ -171,7 +165,7 @@ public class LangchainLLMOperations {
    * Analyzes the sentiment of the user data and returns both the sentiment score and category, and also provides a chat answer
    * based on the sentiment analysis.
    *
-   * @param configuration Refers to the configuration object
+   * @param connection Refers to the configuration object
    * @param data Refers to the user input which needs to be analyzed
    * @return Returns the response with both sentiment score, category, and chat reply
    */
@@ -179,8 +173,7 @@ public class LangchainLLMOperations {
   @Alias("SENTIMENT-analyze")
   @Throws(AiServiceErrorTypeProvider.class)
   @OutputJsonType(schema = "api/response/Response.json")
-  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> extractSentiments(
-                                                                                                                       @Config LangchainLLMConfiguration configuration,
+  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> extractSentiments(@Connection ChatConnection connection,
                                                                                                                        @Content String data,
                                                                                                                        boolean generateResponse) {
 
@@ -188,7 +181,7 @@ public class LangchainLLMOperations {
 
     try {
       // Fetch the language model from the configuration
-      ChatLanguageModel model = configuration.getModel();
+      ChatLanguageModel model = connection.getModel();
 
       // Create an instance of SentimentAnalyzer using the language model
       SentimentAnalyzer sentimentAnalyzer = AiServices.create(SentimentAnalyzer.class, model);
@@ -212,7 +205,7 @@ public class LangchainLLMOperations {
 
         // Call the answerPromptByModelName method to get the chat response based on the input data
         org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> chatResponseResult =
-            answerPromptByModelName(configuration, chatPrompt);
+            answerPromptByModelName(connection, chatPrompt);
 
         InputStream chatResponseStream = chatResponseResult.getOutput();
 
@@ -272,32 +265,32 @@ public class LangchainLLMOperations {
   /**
    * Use OpenAI or Mistral Moderation models to moderate the input (any, from user or llm)
    */
-  @MediaType(value = APPLICATION_JSON, strict = false)
-  @Alias("Toxicity-detection")
-  @Throws(AiServiceErrorTypeProvider.class)
-  @OutputJsonType(schema = "api/response/Response.json")
-  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> moderateInput(@Config LangchainLLMConfiguration configuration,
-                                                                                                                   String input) {
-    try {
-      JSONObject resultObject =
-          org.mule.extension.mulechain.internal.llm.type.ModerationModelType.moderationType(input, configuration);
-
-      String response = executeREST(resultObject.getString("url"), resultObject.getString("apiKey"),
-                                    resultObject.getJSONObject("payload").toString());
-
-      JSONObject jsonObject = new JSONObject();
-      jsonObject.put(MuleChainConstants.RESPONSE, new JSONObject(response));
-
-      LOGGER.debug("Toxicity detection result {}", response);
-      Result<String> answer = Result.<String>builder()
-          .content(response)
-          .tokenUsage(null)
-          .build();;
-      return createLLMResponse(jsonObject.toString(), answer, new HashMap<>());
-    } catch (Exception e) {
-      throw new ModuleException("Unable to perform toxicity detection", MuleChainErrorType.AI_SERVICES_FAILURE, e);
-    }
-  }
+  //  @MediaType(value = APPLICATION_JSON, strict = false)
+  //  @Alias("Toxicity-detection")
+  //  @Throws(AiServiceErrorTypeProvider.class)
+  //  @OutputJsonType(schema = "api/response/Response.json")
+  //  public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> moderateInput(@Connection ChatConnection connection,
+  //                                                                                                                   String input) {
+  //    try {
+  //      JSONObject resultObject =
+  //          org.mule.extension.mulechain.internal.llm.type.ModerationModelType.moderationType(input, connection);
+  //
+  //      String response = executeREST(resultObject.getString("url"), resultObject.getString("apiKey"),
+  //                                    resultObject.getJSONObject("payload").toString());
+  //
+  //      JSONObject jsonObject = new JSONObject();
+  //      jsonObject.put(MuleChainConstants.RESPONSE, new JSONObject(response));
+  //
+  //      LOGGER.debug("Toxicity detection result {}", response);
+  //      Result<String> answer = Result.<String>builder()
+  //          .content(response)
+  //          .tokenUsage(null)
+  //          .build();;
+  //      return createLLMResponse(jsonObject.toString(), answer, new HashMap<>());
+  //    } catch (Exception e) {
+  //      throw new ModuleException("Unable to perform toxicity detection", MuleChainErrorType.AI_SERVICES_FAILURE, e);
+  //    }
+  //  }
 
   private static HttpURLConnection getConnectionObject(URL url, String apiKey) throws IOException {
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();

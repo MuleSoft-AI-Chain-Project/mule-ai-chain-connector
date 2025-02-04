@@ -66,7 +66,7 @@
 		</munit:execution>
 	</munit:test>
 
-	<munit:test name="embedding-get-info-failure-test" description="Embedding Get Info Operation failure due to incorrect model config" expectedErrorType="MS-AICHAIN:EMBEDDING_OPERATIONS_FAILURE">
+	<munit:test name="embedding-get-info-failure-test" description="Embedding Get Info Operation failure due to incorrect model config" expectedErrorType="MS-AICHAIN:CONNECTIVITY">
 		<munit:behavior >
 			<ms-aichain:embedding-new-store doc:name="Embedding new store" doc:id="8f4b53ec-f238-4af0-bc9b-f18bc8ef579a" storeName="target/embedding.store"/>
 			<ms-aichain:embedding-add-document-to-store doc:name="Embedding add document to store" doc:id="7f5feb33-8302-4c06-a358-a23267b808fb" storeName="target/embedding.store" contextPath='${app.home}/embeddingaddfiletest/Foundations_for_High_Scalability_in_Mule_4.pdf' fileType="any" maxSegmentSizeInChars="2000" maxOverlapSizeInChars="200"/>
@@ -77,20 +77,6 @@
 					What is Mule 4?
 				</ms-aichain:data>
 			</ms-aichain:embedding-get-info-from-store>
-		</munit:execution>
-	</munit:test>
-
-	<munit:test name="embedding-get-info-legacy-failure-test" description="Embedding Get Info Legacy Operation failure due to incorrect storeName" expectedErrorType="MS-AICHAIN:EMBEDDING_OPERATIONS_FAILURE">
-		<munit:behavior >
-			<ms-aichain:embedding-new-store doc:name="Embedding new store" doc:id="8f4b53ec-f238-4af0-bc9b-f18bc8ef579a" storeName="target/embedding.store"/>
-			<ms-aichain:embedding-add-document-to-store doc:name="Embedding add document to store" doc:id="7f5feb33-8302-4c06-a358-a23267b808fb" storeName="target/embedding.store" contextPath='${app.home}/embeddingaddfiletest/Foundations_for_High_Scalability_in_Mule_4.pdf' fileType="any" maxSegmentSizeInChars="2000" maxOverlapSizeInChars="200"/>
-		</munit:behavior>
-		<munit:execution >
-			<ms-aichain:embedding-get-info-from-store-legacy doc:name="Embedding get info from store legacy" doc:id="1f9e0410-4357-4ad8-bf17-29112f20e2f6" config-ref="OPENAI" storeName='embedding.store'>
-				<ms-aichain:data>
-					What is Mule 4?
-				</ms-aichain:data>
-			</ms-aichain:embedding-get-info-from-store-legacy>
 		</munit:execution>
 	</munit:test>
 
@@ -112,23 +98,13 @@ payload.response must contain("localhost")]]]></munit-tools:that>
 		</munit:validation>
 	</munit:test>
 
-	<munit:test name="tools-ai-service-failure-test" description="Tools Use AI Service Failure due to incorrect configuration" expectedErrorType="MS-AICHAIN:TOOLS_OPERATION_FAILURE">
+	<munit:test name="tools-ai-service-failure-test" description="Tools Use AI Service Failure due to incorrect configuration" expectedErrorType="MS-AICHAIN:CONNECTIVITY">
 		<munit:execution >
 			<ms-aichain:tools-use-ai-service doc:name="Tools use ai service" doc:id="e7a3fcc4-653e-45c8-8f95-7b22ba9e4a63" config-ref="OPENAI-INCORRECT-MODEL-NAME" toolConfig="${app.home}/local.tools.config.json">
 				<ms-aichain:data>
 					Check Inventory for MULETEST0, dont assume things and invent answers. Answer with the most probable statement.
 				</ms-aichain:data>
 			</ms-aichain:tools-use-ai-service>
-		</munit:execution>
-	</munit:test>
-
-	<munit:test name="tools-ai-service-legacy-failure-test" description="Tools Use AI Service Failure due to incorrect tool config path" expectedErrorType="MS-AICHAIN:TOOLS_OPERATION_FAILURE">
-		<munit:execution >
-			<ms-aichain:tools-use-ai-service-legacy doc:name="Tools use ai service legacy" doc:id="51aa98dc-0ad2-42ad-9fc0-0883bdb766a4" config-ref="OPENAI-INCORRECT-MODEL-NAME" toolConfig="${app.home}/tools/tools.config.json">
-				<ms-aichain:data>
-					Check Inventory for MULETEST0, dont assume things and invent answers. Answer with the most probable statement.
-				</ms-aichain:data>
-			</ms-aichain:tools-use-ai-service-legacy>
 		</munit:execution>
 	</munit:test>
 
