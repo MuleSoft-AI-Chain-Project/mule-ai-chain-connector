@@ -2,7 +2,7 @@ package org.mule.extension.mulechain.internal.connection;
 
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
-import org.mule.extension.mulechain.internal.connection.paramter.GroqAIConnectionParameter;
+import org.mule.extension.mulechain.internal.connection.parameter.GroqAIConnectionParameter;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

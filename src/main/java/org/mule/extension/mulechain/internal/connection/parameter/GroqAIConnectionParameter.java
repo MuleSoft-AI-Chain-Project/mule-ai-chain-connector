@@ -1,7 +1,6 @@
-package org.mule.extension.mulechain.internal.connection.paramter;
+package org.mule.extension.mulechain.internal.connection.parameter;
 
-import org.mule.extension.mulechain.internal.providers.AnthropicModelNameProvider;
-
+import org.mule.extension.mulechain.internal.providers.OpenAIModelNameProvider;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
@@ -9,7 +8,7 @@ import org.mule.runtime.extension.api.annotation.param.display.Password;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.values.OfValues;
 
-public class AnthropicConnectionParameter extends BaseConnectionParameter {
+public class GroqAIConnectionParameter extends BaseConnectionParameter {
 
   @Parameter
   @Password
@@ -19,7 +18,7 @@ public class AnthropicConnectionParameter extends BaseConnectionParameter {
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
-  @OfValues(AnthropicModelNameProvider.class)
+  @OfValues(OpenAIModelNameProvider.class)
   @Placement(order = 2)
   private String modelName;
 

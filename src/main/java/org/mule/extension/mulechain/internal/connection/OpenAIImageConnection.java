@@ -2,7 +2,7 @@ package org.mule.extension.mulechain.internal.connection;
 
 import dev.langchain4j.model.image.ImageModel;
 import dev.langchain4j.model.openai.OpenAiImageModel;
-import org.mule.extension.mulechain.internal.connection.paramter.OpenAIImageConnectionParameter;
+import org.mule.extension.mulechain.internal.connection.parameter.OpenAIImageConnectionParameter;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -2,7 +2,7 @@ package org.mule.extension.mulechain.internal.connection;
 
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.ollama.OllamaChatModel;
-import org.mule.extension.mulechain.internal.connection.paramter.OllamaConnectionParameter;
+import org.mule.extension.mulechain.internal.connection.parameter.OllamaConnectionParameter;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

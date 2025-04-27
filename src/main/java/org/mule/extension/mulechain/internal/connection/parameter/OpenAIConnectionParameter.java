@@ -1,4 +1,4 @@
-package org.mule.extension.mulechain.internal.connection.paramter;
+package org.mule.extension.mulechain.internal.connection.parameter;
 
 import org.mule.extension.mulechain.internal.providers.OpenAIModelNameProvider;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -8,29 +8,19 @@ import org.mule.runtime.extension.api.annotation.param.display.Password;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.values.OfValues;
 
-public class AzureOpenAIConnectionParameter extends BaseConnectionParameter {
-
-  @Parameter
-  @Placement(order = 1)
-  @Expression(ExpressionSupport.SUPPORTED)
-  private String endpoint;
+public class OpenAIConnectionParameter extends BaseConnectionParameter {
 
   @Parameter
   @Password
-  @Placement(order = 2)
+  @Placement(order = 1)
   @Expression(ExpressionSupport.SUPPORTED)
   private String apiKey;
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
   @OfValues(OpenAIModelNameProvider.class)
-  @Placement(order = 3)
+  @Placement(order = 2)
   private String modelName;
-
-  @Parameter
-  @Placement(order = 4)
-  @Expression(ExpressionSupport.SUPPORTED)
-  private String deploymentName;
 
   public String getApiKey() {
     return apiKey;
@@ -38,13 +28,5 @@ public class AzureOpenAIConnectionParameter extends BaseConnectionParameter {
 
   public String getModelName() {
     return modelName;
-  }
-
-  public String getEndpoint() {
-    return endpoint;
-  }
-
-  public String getDeploymentName() {
-    return deploymentName;
   }
 }

@@ -1,6 +1,6 @@
-package org.mule.extension.mulechain.internal.connection.paramter;
+package org.mule.extension.mulechain.internal.connection.parameter;
 
-import org.mule.extension.mulechain.internal.providers.GeminiAIModelNameProvider;
+import org.mule.extension.mulechain.internal.providers.HuggingFaceModelNameProvider;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
@@ -8,7 +8,7 @@ import org.mule.runtime.extension.api.annotation.param.display.Password;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.values.OfValues;
 
-public class GeminiAIConnectionParameter extends BaseConnectionParameter {
+public class HuggingFaceConnectionParameter extends BaseConnectionParameter {
 
   @Parameter
   @Password
@@ -18,7 +18,7 @@ public class GeminiAIConnectionParameter extends BaseConnectionParameter {
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
-  @OfValues(GeminiAIModelNameProvider.class)
+  @OfValues(HuggingFaceModelNameProvider.class)
   @Placement(order = 2)
   private String modelName;
 

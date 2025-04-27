@@ -2,7 +2,7 @@ package org.mule.extension.mulechain.internal.connection;
 
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.huggingface.HuggingFaceChatModel;
-import org.mule.extension.mulechain.internal.connection.paramter.HuggingFaceConnectionParameter;
+import org.mule.extension.mulechain.internal.connection.parameter.HuggingFaceConnectionParameter;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

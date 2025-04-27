@@ -1,4 +1,4 @@
-package org.mule.extension.mulechain.internal.connection.paramter;
+package org.mule.extension.mulechain.internal.connection.parameter;
 
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Expression;

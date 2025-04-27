@@ -1,7 +1,7 @@
 package org.mule.extension.mulechain.internal.connection.provider;
 
 import org.mule.extension.mulechain.internal.connection.OpenAIImageConnection;
-import org.mule.extension.mulechain.internal.connection.paramter.OpenAIImageConnectionParameter;
+import org.mule.extension.mulechain.internal.connection.parameter.OpenAIImageConnectionParameter;
 import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;

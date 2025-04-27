@@ -2,7 +2,7 @@ package org.mule.extension.mulechain.internal.connection;
 
 import dev.langchain4j.model.azure.AzureOpenAiChatModel;
 import dev.langchain4j.model.chat.ChatLanguageModel;
-import org.mule.extension.mulechain.internal.connection.paramter.AzureOpenAIConnectionParameter;
+import org.mule.extension.mulechain.internal.connection.parameter.AzureOpenAIConnectionParameter;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

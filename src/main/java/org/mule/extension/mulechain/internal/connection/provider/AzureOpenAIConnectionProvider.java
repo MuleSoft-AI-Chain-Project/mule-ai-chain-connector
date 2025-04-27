@@ -1,7 +1,7 @@
 package org.mule.extension.mulechain.internal.connection.provider;
 
 import org.mule.extension.mulechain.internal.connection.AzureOpenAIChatConnection;
-import org.mule.extension.mulechain.internal.connection.paramter.AzureOpenAIConnectionParameter;
+import org.mule.extension.mulechain.internal.connection.parameter.AzureOpenAIConnectionParameter;
 import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
