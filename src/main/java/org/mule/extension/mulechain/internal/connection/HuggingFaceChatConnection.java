@@ -31,7 +31,7 @@ public class HuggingFaceChatConnection implements ChatConnection {
           huggingFaceConnectionParameter.getLlmTimeoutUnit().toSeconds(huggingFaceConnectionParameter.getLlmTimeout());
       model = HuggingFaceChatModel.builder()
           .accessToken(huggingFaceConnectionParameter.getApiKey())
-          .modelId(huggingFaceConnectionParameter.getModelName())
+          .modelId(huggingFaceConnectionParameter.getHuggingFaceModelName())
           .timeout(ofSeconds(durationInSec))
           .temperature(huggingFaceConnectionParameter.getTemperature())
           .maxNewTokens(huggingFaceConnectionParameter.getMaxTokens())

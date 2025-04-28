@@ -32,7 +32,7 @@ public class GroqAIChatConnection implements ChatConnection {
       model = OpenAiChatModel.builder()
           .baseUrl("https://api.groq.com/openai/v1")
           .apiKey(groqAIConnectionParameter.getApiKey())
-          .modelName(groqAIConnectionParameter.getModelName())
+          .modelName(groqAIConnectionParameter.getGroqAIModelName())
           .maxTokens(groqAIConnectionParameter.getMaxTokens())
           .temperature(groqAIConnectionParameter.getTemperature())
           .topP(groqAIConnectionParameter.getTopP())

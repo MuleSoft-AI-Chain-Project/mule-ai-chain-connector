@@ -22,10 +22,9 @@ public class AzureOpenAIConnectionParameter extends BaseConnectionParameter {
   private String apiKey;
 
   @Parameter
-  @Expression(ExpressionSupport.SUPPORTED)
   @OfValues(OpenAIModelNameProvider.class)
   @Placement(order = 3)
-  private String modelName;
+  private String azureOpenAIModelName;
 
   @Parameter
   @Placement(order = 4)
@@ -36,8 +35,8 @@ public class AzureOpenAIConnectionParameter extends BaseConnectionParameter {
     return apiKey;
   }
 
-  public String getModelName() {
-    return modelName;
+  public String getAzureOpenAIModelName() {
+    return azureOpenAIModelName;
   }
 
   public String getEndpoint() {

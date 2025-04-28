@@ -17,16 +17,15 @@ public class GeminiAIConnectionParameter extends BaseConnectionParameter {
   private String apiKey;
 
   @Parameter
-  @Expression(ExpressionSupport.SUPPORTED)
   @OfValues(GeminiAIModelNameProvider.class)
   @Placement(order = 2)
-  private String modelName;
+  private String geminiAIModelName;
 
   public String getApiKey() {
     return apiKey;
   }
 
-  public String getModelName() {
-    return modelName;
+  public String getGeminiAIModelName() {
+    return geminiAIModelName;
   }
 }

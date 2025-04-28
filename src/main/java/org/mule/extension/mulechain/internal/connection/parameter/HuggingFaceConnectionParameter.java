@@ -17,16 +17,15 @@ public class HuggingFaceConnectionParameter extends BaseConnectionParameter {
   private String apiKey;
 
   @Parameter
-  @Expression(ExpressionSupport.SUPPORTED)
   @OfValues(HuggingFaceModelNameProvider.class)
   @Placement(order = 2)
-  private String modelName;
+  private String huggingFaceModelName;
 
   public String getApiKey() {
     return apiKey;
   }
 
-  public String getModelName() {
-    return modelName;
+  public String getHuggingFaceModelName() {
+    return huggingFaceModelName;
   }
 }

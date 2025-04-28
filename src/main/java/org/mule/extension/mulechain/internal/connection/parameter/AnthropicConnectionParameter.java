@@ -18,16 +18,15 @@ public class AnthropicConnectionParameter extends BaseConnectionParameter {
   private String apiKey;
 
   @Parameter
-  @Expression(ExpressionSupport.SUPPORTED)
   @OfValues(AnthropicModelNameProvider.class)
   @Placement(order = 2)
-  private String modelName;
+  private String anthropicModelName;
 
   public String getApiKey() {
     return apiKey;
   }
 
-  public String getModelName() {
-    return modelName;
+  public String getAnthropicModelName() {
+    return anthropicModelName;
   }
 }

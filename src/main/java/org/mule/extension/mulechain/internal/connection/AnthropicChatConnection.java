@@ -31,7 +31,7 @@ public class AnthropicChatConnection implements ChatConnection {
           anthropicConnectionParameter.getLlmTimeoutUnit().toSeconds(anthropicConnectionParameter.getLlmTimeout());
       model = AnthropicChatModel.builder()
           .apiKey(anthropicConnectionParameter.getApiKey())
-          .modelName(anthropicConnectionParameter.getModelName())
+          .modelName(anthropicConnectionParameter.getAnthropicModelName())
           .maxTokens(anthropicConnectionParameter.getMaxTokens())
           .temperature(anthropicConnectionParameter.getTemperature())
           .topP(anthropicConnectionParameter.getTopP())

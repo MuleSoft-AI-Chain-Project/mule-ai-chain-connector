@@ -28,7 +28,7 @@ public class OpenAIImageConnection implements ImageConnection {
   public void connect() throws ConnectionException {
     try {
       model = OpenAiImageModel.builder()
-          .modelName(openAIImageConnectionParameter.getModelName())
+          .modelName(openAIImageConnectionParameter.getOpenAIImageModelName())
           .apiKey(openAIImageConnectionParameter.getApiKey())
           .build();
       testConnection(model);

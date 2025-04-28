@@ -12,21 +12,21 @@
     <configuration-properties doc:name="Configuration properties" file="automation-credentials.properties"/>
 
     <ms-aichain:chat-config name="OPENAI" doc:name="MuleSoft AI Chain Chat config" doc:id="c6ea5fa9-7b03-44e9-a5e8-12c9aa9c68c4" >
-        <ms-aichain:open-ai-connection apiKey="${openai.key}" modelName="gpt-3.5-turbo" temperature="0.1"/>
+        <ms-aichain:open-ai-connection apiKey="${openai.key}" openAIModelName="gpt-3.5-turbo" temperature="0.1"/>
     </ms-aichain:chat-config>
     <ms-aichain:chat-config name="OPENAIGPT4" doc:name="MuleSoft AI Chain Chat config" doc:id="c6ea5fa9-7b03-44e9-a5e8-12c9aa9c68c4" >
-        <ms-aichain:open-ai-connection apiKey="${openai.key}" modelName="gpt-4o" temperature="0.1"/>
+        <ms-aichain:open-ai-connection apiKey="${openai.key}" openAIModelName="gpt-4o" temperature="0.1"/>
     </ms-aichain:chat-config>
     <ms-aichain:chat-config name="OPENAI-INCORRECT-MODEL-NAME" doc:name="MuleSoft AI Chain Chat config" doc:id="c6ea5fa9-7b03-44e9-a5e8-12c9aa9c68c4" >
-        <ms-aichain:open-ai-connection apiKey="${openai.key}" modelName="gpti-3.5-turbo" temperature="0.1"/>
+        <ms-aichain:open-ai-connection apiKey="${openai.key}" openAIModelName="gpti-3.5-turbo" temperature="0.1"/>
     </ms-aichain:chat-config>
     <ms-aichain:chat-config name="OPENAI-INCORRECT-KEY" doc:name="MuleSoft AI Chain Chat config" doc:id="c6ea5fa9-7b03-44e9-a5e8-12c9aa9c68c4" >
-        <ms-aichain:open-ai-connection apiKey="xyz" modelName="gpt-3.5-turbo" temperature="0.1"/>
+        <ms-aichain:open-ai-connection apiKey="xyz" openAIModelName="gpt-3.5-turbo" temperature="0.1"/>
     </ms-aichain:chat-config>
     <ms-aichain:image-config name="OPENAI-INCORRECT-IMAGE-KEY" doc:name="MuleSoft AI Chain Image config" doc:id="c6ea5fa9-7b03-44e9-a5e8-12c9aa9c68c4" >
-        <ms-aichain:open-ai-image-connection apiKey="xyz" modelName="gpt-3.5-turbo"/>
+        <ms-aichain:open-ai-image-connection apiKey="xyz" openAIImageModelName="gpt-3.5-turbo"/>
     </ms-aichain:image-config>
     <ms-aichain:image-config name="OPENAIGPT4-IMAGE" doc:name="MuleSoft AI Chain Image config" doc:id="c6ea5fa9-7b03-44e9-a5e8-12c9aa9c68c4" >
-        <ms-aichain:open-ai-image-connection apiKey="${openai.key}" modelName="gpt-4o"/>
+        <ms-aichain:open-ai-image-connection apiKey="${openai.key}" openAIImageModelName="gpt-4o"/>
     </ms-aichain:image-config>
 </mule>

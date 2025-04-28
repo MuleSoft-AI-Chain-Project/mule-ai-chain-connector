@@ -17,16 +17,15 @@ public class OllamaConnectionParameter extends BaseConnectionParameter {
   private String baseUrl;
 
   @Parameter
-  @Expression(ExpressionSupport.SUPPORTED)
   @OfValues(OllamaModelNameProvider.class)
   @Placement(order = 2)
-  private String modelName;
+  private String OllamaModelName;
 
   public String getBaseUrl() {
     return baseUrl;
   }
 
-  public String getModelName() {
-    return modelName;
+  public String getOllamaModelName() {
+    return OllamaModelName;
   }
 }

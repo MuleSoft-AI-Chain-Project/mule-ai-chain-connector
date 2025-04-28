@@ -30,7 +30,7 @@ public class GeminiAIChatConnection implements ChatConnection {
       long durationInSec = geminiAIConnectionParameter.getLlmTimeoutUnit().toSeconds(geminiAIConnectionParameter.getLlmTimeout());
       model = GoogleAiGeminiChatModel.builder()
           .apiKey(geminiAIConnectionParameter.getApiKey())
-          .modelName(geminiAIConnectionParameter.getModelName())
+          .modelName(geminiAIConnectionParameter.getGeminiAIModelName())
           .temperature(geminiAIConnectionParameter.getTemperature())
           .topP(geminiAIConnectionParameter.getTopP())
           .timeout(ofSeconds(durationInSec))

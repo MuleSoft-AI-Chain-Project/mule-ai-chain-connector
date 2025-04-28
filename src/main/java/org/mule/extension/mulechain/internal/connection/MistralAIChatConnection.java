@@ -31,7 +31,7 @@ public class MistralAIChatConnection implements ChatConnection {
           mistralAIConnectionParameter.getLlmTimeoutUnit().toSeconds(mistralAIConnectionParameter.getLlmTimeout());
       model = MistralAiChatModel.builder()
           .apiKey(mistralAIConnectionParameter.getApiKey())
-          .modelName(mistralAIConnectionParameter.getModelName())
+          .modelName(mistralAIConnectionParameter.getMistralAIModelName())
           .maxTokens(mistralAIConnectionParameter.getMaxTokens())
           .temperature(mistralAIConnectionParameter.getTemperature())
           .topP(mistralAIConnectionParameter.getTopP())

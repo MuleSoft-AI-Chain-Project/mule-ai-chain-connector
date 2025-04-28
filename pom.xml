@@ -241,21 +241,11 @@
         </dependencies>
     </dependencyManagement>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.mule.sdk</groupId>
-            <artifactId>mule-sdk-api</artifactId>
-            <version>${mule.sdk.api.version}</version>
-        </dependency> 
+	<dependencies>
 		<dependency>
-			<groupId>dev.langchain4j</groupId>
-			<artifactId>langchain4j-open-ai</artifactId>
-			<version>${langchain4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4jApi.version}</version>
+			<groupId>org.mule.sdk</groupId>
+			<artifactId>mule-sdk-api</artifactId>
+			<version>${mule.sdk.api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>dev.langchain4j</groupId>
@@ -273,17 +263,51 @@
 			<artifactId>langchain4j-embeddings-all-minilm-l6-v2</artifactId>
 			<version>${langchain4j.version}</version>
 		</dependency>
+
+		<!--START Provided dependencies, to be uploaded as user input, based on model being used-->
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-open-ai</artifactId>
+			<version>${langchain4j.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>dev.langchain4j</groupId>
 			<artifactId>langchain4j-mistral-ai</artifactId>
 			<version>${langchain4j.version}</version>
+			<scope>provided</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-ollama</artifactId>
+			<version>${langchain4j.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-anthropic</artifactId>
+			<version>${langchain4j.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-azure-open-ai</artifactId>
+			<version>${langchain4j.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-google-ai-gemini</artifactId>
+			<version>${langchain4j.version}</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>dev.langchain4j</groupId>
 			<artifactId>langchain4j-hugging-face</artifactId>
 			<version>${langchain4j.version}</version>
+			<scope>provided</scope>
 		</dependency>
+		<!--END Provided dependencies, to be uploaded as user input, based on model being used-->
+
 		<dependency>
 			<groupId>org.mapdb</groupId>
 			<artifactId>mapdb</artifactId>
@@ -310,26 +334,6 @@
 					<groupId>org.apache.logging.log4j</groupId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>dev.langchain4j</groupId>
-			<artifactId>langchain4j-ollama</artifactId>
-			<version>${langchain4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>dev.langchain4j</groupId>
-			<artifactId>langchain4j-anthropic</artifactId>
-			<version>${langchain4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>dev.langchain4j</groupId>
-			<artifactId>langchain4j-azure-open-ai</artifactId>
-			<version>${langchain4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>dev.langchain4j</groupId>
-			<artifactId>langchain4j-google-ai-gemini</artifactId>
-			<version>${langchain4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.reactivex.rxjava2</groupId>

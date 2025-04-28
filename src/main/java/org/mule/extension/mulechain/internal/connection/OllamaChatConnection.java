@@ -30,7 +30,7 @@ public class OllamaChatConnection implements ChatConnection {
       long durationInSec = ollamaConnectionParameter.getLlmTimeoutUnit().toSeconds(ollamaConnectionParameter.getLlmTimeout());
       model = OllamaChatModel.builder()
           .baseUrl(ollamaConnectionParameter.getBaseUrl())
-          .modelName(ollamaConnectionParameter.getModelName())
+          .modelName(ollamaConnectionParameter.getOllamaModelName())
           .temperature(ollamaConnectionParameter.getTemperature())
           .topP(ollamaConnectionParameter.getTopP())
           .timeout(ofSeconds(durationInSec))

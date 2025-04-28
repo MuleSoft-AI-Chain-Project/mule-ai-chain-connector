@@ -17,16 +17,15 @@ public class GroqAIConnectionParameter extends BaseConnectionParameter {
   private String apiKey;
 
   @Parameter
-  @Expression(ExpressionSupport.SUPPORTED)
   @OfValues(OpenAIModelNameProvider.class)
   @Placement(order = 2)
-  private String modelName;
+  private String groqAIModelName;
 
   public String getApiKey() {
     return apiKey;
   }
 
-  public String getModelName() {
-    return modelName;
+  public String getGroqAIModelName() {
+    return groqAIModelName;
   }
 }

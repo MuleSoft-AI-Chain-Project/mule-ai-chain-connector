@@ -17,16 +17,15 @@ public class MistralAIConnectionParameter extends BaseConnectionParameter {
   private String apiKey;
 
   @Parameter
-  @Expression(ExpressionSupport.SUPPORTED)
   @OfValues(MistralAIModelNameProvider.class)
   @Placement(order = 2)
-  private String modelName;
+  private String mistralAIModelName;
 
   public String getApiKey() {
     return apiKey;
   }
 
-  public String getModelName() {
-    return modelName;
+  public String getMistralAIModelName() {
+    return mistralAIModelName;
   }
 }

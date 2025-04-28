@@ -30,7 +30,7 @@ public class OpenAIChatConnection implements ChatConnection {
       long durationInSec = openAIConnectionParameter.getLlmTimeoutUnit().toSeconds(openAIConnectionParameter.getLlmTimeout());
       model = OpenAiChatModel.builder()
           .apiKey(openAIConnectionParameter.getApiKey())
-          .modelName(openAIConnectionParameter.getModelName())
+          .modelName(openAIConnectionParameter.getOpenAIModelName())
           .maxTokens(openAIConnectionParameter.getMaxTokens())
           .temperature(openAIConnectionParameter.getTemperature())
           .topP(openAIConnectionParameter.getTopP())
