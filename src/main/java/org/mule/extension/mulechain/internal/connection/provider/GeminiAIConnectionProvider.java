@@ -6,11 +6,19 @@ import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.annotation.ExternalLib;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.mule.runtime.api.meta.ExternalLibraryType.JAR;
+
+@ExternalLib(
+    name = "GeminiAI Library",
+    description = "GeminiAI Library",
+    type = JAR,
+    nameRegexpMatcher = "langchain4j-google-ai-gemini.*.jar")
 @Alias("geminiAI")
 @DisplayName("GeminiAI")
 public class GeminiAIConnectionProvider implements CachedConnectionProvider<GeminiAIChatConnection> {

@@ -6,11 +6,19 @@ import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.annotation.ExternalLib;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.mule.runtime.api.meta.ExternalLibraryType.JAR;
+
+@ExternalLib(
+    name = "HuggingFace Library",
+    description = "HuggingFace Library",
+    type = JAR,
+    nameRegexpMatcher = "langchain4j-hugging-face.*.jar")
 @Alias("huggingFace")
 @DisplayName("HuggingFace")
 public class HuggingFaceConnectionProvider implements CachedConnectionProvider<HuggingFaceChatConnection> {
