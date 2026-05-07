@@ -292,4 +292,34 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
+
+	<profiles>
+		<profile>
+			<id>default-config</id>
+			<activation>
+				<property>
+					<name>!mule.security.model</name>
+				</property>
+			</activation>
+		</profile>
+		<profile>
+			<id>fips-config</id>
+			<activation>
+				<property>
+					<name>mule.security.model</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.mulesoft.munit</groupId>
+						<artifactId>munit-extensions-maven-plugin</artifactId>
+						<configuration>
+							<minMuleVersionConfig>RUNTIME</minMuleVersionConfig>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
