@@ -35,17 +35,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.sonatype.central</groupId>
-				<artifactId>central-publishing-maven-plugin</artifactId>
-				<version>0.6.0</version>
-				<extensions>true</extensions>
-				<configuration>
-					<publishingServerId>central</publishingServerId>
-					<checksums>all</checksums>
-					<deploymentName>MuleSoft AI Chain Connector Mule 4 Deployment</deploymentName>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jdeps-plugin</artifactId>
 				<version>3.1.2</version>
